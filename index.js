@@ -1,8 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser'
+import { mongodbConnection } from './DB/db.connection.js';
 
 const app=express()
 app.use(bodyParser.json());
+
+mongodbConnection();
 
 const todos=[
     {
@@ -121,5 +124,6 @@ app.delete('/delete-todo/:id',(req,res)=>{
         message:"Invalid id",
     })
 })
+
 
 app.listen(3000);
