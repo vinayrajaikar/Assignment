@@ -2,9 +2,12 @@ import express from 'express';
 import bodyParser from 'body-parser'
 import { mongodbConnection } from './DB/db.connection.js';
 import { loginUser, registerUser } from './DB/controllers/user.controller.js';
+import { verifyJwt } from './DB/middlewares/verifyJwt.js';
+import cookieParser from "cookie-parser";
 
 const app=express()
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 mongodbConnection();
 
@@ -24,6 +27,8 @@ const todos=[
 app.get('/',(req,res)=>{
     res.send("Working");
 })
+
+// app.get('/jwt',verifyJwt)
 
 app.post('/register-user',registerUser)
 

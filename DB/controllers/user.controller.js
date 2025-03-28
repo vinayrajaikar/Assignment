@@ -1,10 +1,11 @@
-import { User } from "../models/user.model";
+import { User } from "../models/user.model.js";
 import bcrypt from 'bcrypt'
+import jwt from "jsonwebtoken"
 
 const generateJwt = async(user) =>{
-    const token =await jwt.sign(
+    const token =jwt.sign(
         user,
-        secret,
+        process.env.token_secret,
         { expiresIn: '1hr'}
     )
     return token;
@@ -20,7 +21,7 @@ export const registerUser = async(req,res)=>{
         })
     }
 
-    const existedUser = User.findOne({
+    const existedUser =await User.findOne({
         $or:[
             {username},
             {email}
@@ -33,10 +34,10 @@ export const registerUser = async(req,res)=>{
         })
     }
 
-    const user = User.create({
+    const user = await User.create({
         username,
         email,
-        password: bcrypt(password,10)
+        password:await bcrypt.hash(password,10)
     })
 
     if(!user){
@@ -47,21 +48,24 @@ export const registerUser = async(req,res)=>{
       
     return res.status(200).send({
         message:"User created successfully",
-        user:user
+        user:{
+            username: user.username,
+            email: user.email
+        }
     })
 
 }
 
 export const loginUser = async(req,res)=>{
-    const {username, email, password} = req.body();
+    const {username, email, password} = req.body;
 
     if(!username || !email || !password){
-        res.status(400).send({
+        return res.status(400).send({
             message:"missing credentials"
         })
     }
 
-    const user = User.findOne({
+    const user =await User.findOne({
         $or:[
             {username},
             {email}
@@ -69,22 +73,22 @@ export const loginUser = async(req,res)=>{
     })
 
     if(!user){
-        res.status(400).send({
+        return res.status(400).send({
             message: "User not found"
         })
     }
 
     const hashedPassword = user.password;
 
-    const validPassword = bcrypt .compare(password,hashedPassword);
+    const validPassword =await bcrypt.compare(password,hashedPassword);
 
     if(!validPassword){
-        res.status(400).send({
+        return res.status(400).send({
             message: "Invalid Password"
         })
     }
 
-    const token = generateJwt({
+    const token = await generateJwt({
         username: user.username,
         email: user.email
     });
@@ -103,6 +107,5 @@ export const loginUser = async(req,res)=>{
                 email: user.email
             }
         })
- 
 }
 

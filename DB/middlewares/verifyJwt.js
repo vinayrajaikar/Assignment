@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken"
-import { User } from "../models/user.model";
+import { User } from "../models/user.model.js";
 
-const verifyJwt = async(req,next) =>{
+export const verifyJwt = async(req,res,next) =>{
     try{
-        const token = req.cookies.token;
+        const token =await req?.cookies.token;
 
         if(!token){
-            res.status(401).send({
+            return res.status(401).send({
                 message: "token not found in cookie"
             })
         }
@@ -14,15 +14,17 @@ const verifyJwt = async(req,next) =>{
         const decodedToken = jwt.verify(token,process.env.token_secret);
 
         if(!decodedToken){
-            res.status(401).send({
+            return res.status(401).send({
                 message: "Invalid token"
             }) 
         }
 
-        const user = await User.findById(decodedToken._id).select("-password");
+        const user = await User.findOne({
+            username: decodedToken.username
+        }).select("-password");
 
         if(!user){
-            res.status(401).send({
+            return res.status(401).send({
                 message: "user not found by token"
             }) 
         }
@@ -32,7 +34,7 @@ const verifyJwt = async(req,next) =>{
         next();
     }
     catch(error){
-        res.status(401).send({
+        return res.status(401).send({
             message:"Error Verifying Jwt" || error.message
         })
     }

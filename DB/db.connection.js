@@ -10,7 +10,7 @@ export const mongodbConnection = async()=>{
 
     try{
         const mongoInstance = await mongoose.connect(url, {
-            dbName:"todoDB"
+            dbName:"todos"
         })
         console.log(`MongoDB connected successfully!`,mongoInstance.connection.host);
     }
