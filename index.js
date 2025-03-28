@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser'
 import { mongodbConnection } from './DB/db.connection.js';
+import { loginUser, registerUser } from './DB/controllers/user.controller.js';
 
 const app=express()
 app.use(bodyParser.json());
@@ -23,6 +24,10 @@ const todos=[
 app.get('/',(req,res)=>{
     res.send("Working");
 })
+
+app.post('/register-user',registerUser)
+
+app.post('/login-user',loginUser);
 
 app.post('/add-todo',(req,res)=>{
     const {id,todo}=req.body;
