@@ -1,12 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const todoSchema=new Schema({
-
-    id:{
-        type: Number,
-        require: true
-    },
-
+    
     todo:{
         type: String,
         require: true
