@@ -94,8 +94,6 @@ app.get('/get-todo/:id',verifyJwt,async(req,res)=>{
         _id:id
     })
 
-    console.log(todo);
-
     if(!todo){
         return res.status(400).send({
             message:"todo not found",
