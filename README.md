@@ -6,7 +6,7 @@ A simple Express.js-based REST API for managing a Todo list.
 
 1. **Add Todo:**  
    - Adds a new todo item to the list.  
-   <img src="Postman_Testing/add_todo.png" alt="Add Todo" width="800">
+   <img src="Postman_Testing/add_todo" alt="Add Todo" width="800">
 
 2. **Get All Todos:**  
    - Retrieves a list of all todo items.  
