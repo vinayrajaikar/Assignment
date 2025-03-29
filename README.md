@@ -1,8 +1,24 @@
 # Todo Assignment
 
-A simple Express.js-based REST API for managing a Todo list.
+A simple Express.js-based REST API for managing a Todo list using Mongodb.
 
-## Features
+# End Points
+
+## User Authentication
+
+1. **Register User:**  
+   - Register a new user.  
+   <img src="Postman_Testing/register-user.png" alt="Add Todo" width="800">
+
+2. **Login User:**  
+   - Log in a user.  
+   <img src="Postman_Testing/login-user.png" alt="Get All Todos" width="800">
+  
+3. **Logout User**  
+   - log out a user.  
+   <img src="Postman_Testing/logout-user.png" alt="Get Todo by ID" width="800">
+
+## Todo endpoints
 
 1. **Add Todo:**  
    - Adds a new todo item to the list.  
